@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Miniproject">
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|text_display:inst13|char_rom:scoretext|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_kt91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|altpll0:inst6|altpll:altpll_component" CBX_FILE_NAME="altpll0_altpll.v"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|game_mode_display:inst11|char_rom:scoretext|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_kt91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|game_over_display:inst5|char_rom:scoretext|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_kt91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|levels_display:inst12|char_rom:scoretext|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_kt91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|mainDiagram|main_menu_display:inst7|char_rom:scoretext|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_kt91.tdf"/>
+	</PROJECT>
+	<PROJECT NAME="test">
+		<CBX_INST_ENTRY INSTANCE_NAME="|test|altpll0:inst6|altpll:altpll_component" CBX_FILE_NAME="altpll0_altpll.v"/>
+	</PROJECT>
+</LOG_ROOT>
