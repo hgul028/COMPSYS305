@@ -6,41 +6,41 @@ use  IEEE.NUMERIC_STD.all;
 
 
 
-ENTITY text_display is 
+ENTITY digits is 
 	PORT(
-		clock_25Mhz : IN STD_LOGIC;
-		pixel_row, pixel_column: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
-		digit_one, digit_two:IN STD_LOGIC_VECTOR(5 DOWNTO 0);
-		gameState : in std_LOGIC_VECTOR(1 DOWNTO 0);
-		over_text_on : OUT STD_LOGIC;
-		output_text : OUT STD_LOGIC	
+		clock_25Mhz 					: IN STD_LOGIC;
+		pixel_row, pixel_column		: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
+		digit_one, digit_two			: IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+		gameState 						: IN std_LOGIC_VECTOR(1 DOWNTO 0);		
+		over_text 						: OUT STD_LOGIC;
+		return_text 					: OUT STD_LOGIC	
 	  );
-END ENTITY text_display;
+END ENTITY digits;
 
 
 
-ARCHITECTURE BEHAVIOUR of text_display is
+ARCHITECTURE BEHAVIOUR of digits is
 
 	COMPONENT char_rom
 		PORT 
 			(
-				character_address	:	IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+				character_address		:	IN STD_LOGIC_VECTOR (5 DOWNTO 0);
 				font_row, font_col	:	IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-				clock				: 	IN STD_LOGIC ;
-				rom_mux_output		:OUT STD_LOGIC
+				clock						: 	IN STD_LOGIC ;
+				rom_mux_output			:	OUT STD_LOGIC
 			);
 			
 	end COMPONENT;
 
 	SIGNAL score_display : std_logic_vector(5 downto 0);
-	SIGNAL output_score  : STD_LOGIC := '0';
+	SIGNAL return_score  : STD_LOGIC := '0';
  
 	
 	
 
 BEGIN							
 
-		over_text_on <= '1' when (output_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(336,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(304,10) 
+		over_text_on <= '1' when (return_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(336,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(304,10) 
 		and pixel_row <= CONV_STD_LOGIC_VECTOR(30,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(15,10)) and (gameState = "01" or gameState = "10") else'0';
 		
 		
@@ -84,9 +84,9 @@ BEGIN
 							font_row=>pixel_row(3 downto 1),
 							font_col=>pixel_column(3 downto 1),
 							clock => clock_25Mhz,
-							rom_mux_output =>output_score
+							rom_mux_output =>return_score
 							);
 
-	output_text <= output_score;
+	return_text <= return_score;
 
 END ARCHITECTURE;

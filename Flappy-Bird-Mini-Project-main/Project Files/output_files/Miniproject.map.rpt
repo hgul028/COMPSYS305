@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Miniproject
-Mon May 30 00:24:11 2022
+Mon May 30 01:54:46 2022
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -62,7 +62,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon May 30 00:24:11 2022           ;
+; Analysis & Synthesis Status        ; Successful - Mon May 30 01:54:46 2022           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; Miniproject                                     ;
 ; Top-level Entity Name              ; mainDiagram                                     ;
@@ -1305,7 +1305,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon May 30 00:23:58 2022
+    Info: Processing started: Mon May 30 01:54:33 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Miniproject -c Miniproject
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file vhdl files/gift_display.vhd
@@ -1515,12 +1515,12 @@ Warning (10492): VHDL Process Statement warning at mouse.vhd(155): signal "CHARO
 Warning (10492): VHDL Process Statement warning at mouse.vhd(156): signal "CHAROUT" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Warning (10492): VHDL Process Statement warning at mouse.vhd(157): signal "CHAROUT" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Info (12128): Elaborating entity "text_display" for hierarchy "text_display:inst13"
-Info (10041): Inferred latch for "score_display[0]" at text.vhd(50)
-Info (10041): Inferred latch for "score_display[1]" at text.vhd(50)
-Info (10041): Inferred latch for "score_display[2]" at text.vhd(50)
-Info (10041): Inferred latch for "score_display[3]" at text.vhd(50)
-Info (10041): Inferred latch for "score_display[4]" at text.vhd(50)
-Info (10041): Inferred latch for "score_display[5]" at text.vhd(50)
+Info (10041): Inferred latch for "score_display[0]" at text.vhd(47)
+Info (10041): Inferred latch for "score_display[1]" at text.vhd(47)
+Info (10041): Inferred latch for "score_display[2]" at text.vhd(47)
+Info (10041): Inferred latch for "score_display[3]" at text.vhd(47)
+Info (10041): Inferred latch for "score_display[4]" at text.vhd(47)
+Info (10041): Inferred latch for "score_display[5]" at text.vhd(47)
 Info (12128): Elaborating entity "char_rom" for hierarchy "text_display:inst13|char_rom:scoretext"
 Info (12128): Elaborating entity "altsyncram" for hierarchy "text_display:inst13|char_rom:scoretext|altsyncram:altsyncram_component"
 Info (12130): Elaborated megafunction instantiation "text_display:inst13|char_rom:scoretext|altsyncram:altsyncram_component"
@@ -1617,8 +1617,8 @@ Info (21057): Implemented 1997 device resources after synthesis - the final reso
     Info (21064): Implemented 40 RAM segments
     Info (21065): Implemented 1 PLLs
 Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 122 warnings
-    Info: Peak virtual memory: 4662 megabytes
-    Info: Processing ended: Mon May 30 00:24:11 2022
+    Info: Peak virtual memory: 4655 megabytes
+    Info: Processing ended: Mon May 30 01:54:46 2022
     Info: Elapsed time: 00:00:13
     Info: Total CPU time (on all processors): 00:00:13
 

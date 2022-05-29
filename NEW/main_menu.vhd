@@ -6,45 +6,43 @@ use  IEEE.NUMERIC_STD.all;
 
 
 
-ENTITY main_menu_display is 
+ENTITY main_menu is 
 	PORT(
-		clock_25Mhz : IN STD_LOGIC;
-		pixel_row, pixel_column: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
-		ones_score, tens_score:IN STD_LOGIC_VECTOR(5 DOWNTO 0);
-		gameState : in std_LOGIC_VECTOR(1 DOWNTO 0);
-		over_text_on : OUT STD_LOGIC;
-		output_text : OUT STD_LOGIC	
+		clock_25Mhz 					: IN STD_LOGIC;
+		pixel_row, pixel_column		: IN STD_LOGIC_VECTOR (9 DOWNTO 0);
+		gameState 						: IN std_LOGIC_VECTOR(1 DOWNTO 0);
+		over_text 						: OUT STD_LOGIC;
+		return_text 					: OUT STD_LOGIC	
 	  );
-END ENTITY main_menu_display;
+END ENTITY main_menu;
 
 
 
-ARCHITECTURE BEHAVIOUR of main_menu_display is
+ARCHITECTURE BEHAVIOUR of main_menu is
 
 	COMPONENT char_rom
 		PORT 
 			(
-				character_address	:	IN STD_LOGIC_VECTOR (5 DOWNTO 0);
+				character_address		:	IN STD_LOGIC_VECTOR (5 DOWNTO 0);
 				font_row, font_col	:	IN STD_LOGIC_VECTOR (2 DOWNTO 0);
-				clock				: 	IN STD_LOGIC ;
-				rom_mux_output		:OUT STD_LOGIC
+				clock						: 	IN STD_LOGIC ;
+				rom_mux_output			:   OUT STD_LOGIC
 			);
 			
 	end COMPONENT;
 
 	SIGNAL score_display : std_logic_vector(5 downto 0);
-	SIGNAL output_score  : STD_LOGIC := '0';
-	SIGNAL main_menu_display : std_logic_vector(5 downto 0); 
+	SIGNAL return_score  : STD_LOGIC := '0';
+	SIGNAL main_menu 	   : std_logic_vector(5 downto 0); 
  
 	
 BEGIN							
 
 		--MAIN MENU
-		over_text_on <= '1' when (output_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(495,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(175,10) 
+		over_text <= '1' when (return_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(495,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(175,10) 
 		and pixel_row <= CONV_STD_LOGIC_VECTOR(300,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(30,10)) else'0';
 
-		--MAIN MENU DISPLAY	
-		main_menu_display <= 
+		main_menu <= 
 				
 					--START GAME
 					CONV_STD_LOGIC_VECTOR(32,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(255,10) and pixel_row <= CONV_STD_LOGIC_VECTOR(45,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(30,10) else --"space"
@@ -148,15 +146,16 @@ BEGIN
 					CONV_STD_LOGIC_VECTOR(32,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(463,10) and pixel_row <= CONV_STD_LOGIC_VECTOR(270,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(255,10) else --"space"
 					CONV_STD_LOGIC_VECTOR(32,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(479,10) and pixel_row <= CONV_STD_LOGIC_VECTOR(270,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(255,10) else --"space"
 					CONV_STD_LOGIC_VECTOR(32,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(495,10) and pixel_row <= CONV_STD_LOGIC_VECTOR(270,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(255,10) else --"space"
-;
+				;
+	
 		scoretext : char_rom PORT MAP(
-							character_address => main_menu_display,
+							character_address => main_menu,
 							font_row=>pixel_row(3 downto 1),
 							font_col=>pixel_column(3 downto 1),
 							clock => clock_25Mhz,
-							rom_mux_output =>output_score
+							rom_mux_output =>return_score
 							);
 
-	output_text <= output_score;
+	return_text <= return_score;
 
 END ARCHITECTURE;

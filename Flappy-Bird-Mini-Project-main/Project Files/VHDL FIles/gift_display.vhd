@@ -1,16 +1,16 @@
 library IEEE;
-USE IEEE.STD_LOGIC_1164.all;
+USE  IEEE.STD_LOGIC_1164.all;
 USE  IEEE.STD_LOGIC_ARITH.all;
 USE  IEEE.STD_LOGIC_SIGNED.all;
 
 entity bouncy_gift is
 	PORT
 		( 
-		SIGNAL vert_sync, collision: IN std_logic;
-		SIGNAL pixel_row, pixel_column	: IN std_logic_vector(9 DOWNTO 0);
-		SIGNAL gift_display : OUT std_logic; 
-		SIGNAL gift_x_pos_output : OUT std_logic_vector(10 DOWNTO 0);  
-		SIGNAL score_ones_out, score_tens_out : OUT std_logic_vector(5 downto 0) := "110000");
+		SIGNAL vert_sync, collision					: IN std_logic;
+		SIGNAL pixel_row, pixel_column				: IN std_logic_vector(9 DOWNTO 0);
+		SIGNAL gift_display 								: OUT std_logic; 
+		SIGNAL gift_x_pos_output						: OUT std_logic_vector(10 DOWNTO 0);  
+		SIGNAL score_ones_out, score_tens_out 		: OUT std_logic_vector(5 downto 0) := "110000");
 end entity bouncy_gift;
 
 
