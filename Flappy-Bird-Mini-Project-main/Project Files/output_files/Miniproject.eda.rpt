@@ -1,6 +1,6 @@
 EDA Netlist Writer report for Miniproject
-Tue May 25 17:31:32 2021
-Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+Mon May 30 08:04:08 2022
+Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
 ---------------------
@@ -8,7 +8,9 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
 ---------------------
   1. Legal Notice
   2. EDA Netlist Writer Summary
-  3. EDA Netlist Writer Messages
+  3. Simulation Settings
+  4. Simulation Generated Files
+  5. EDA Netlist Writer Messages
 
 
 
@@ -31,29 +33,75 @@ applicable agreement for further details.
 
 
 
-+----------------------------------------------------------------------------------+
-; EDA Netlist Writer Summary                                                       ;
-+---------------------------+------------------------------------------------------+
-; EDA Netlist Writer Status ; No Output Files Generated - Tue May 25 17:31:32 2021 ;
-; Revision Name             ; Miniproject                                          ;
-; Top-level Entity Name     ; mainDiagram                                          ;
-; Family                    ; Cyclone III                                          ;
-+---------------------------+------------------------------------------------------+
++-------------------------------------------------------------------+
+; EDA Netlist Writer Summary                                        ;
++---------------------------+---------------------------------------+
+; EDA Netlist Writer Status ; Successful - Mon May 30 08:04:08 2022 ;
+; Revision Name             ; Miniproject                           ;
+; Top-level Entity Name     ; mainDiagram                           ;
+; Family                    ; Cyclone III                           ;
+; Simulation Files Creation ; Successful                            ;
++---------------------------+---------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Simulation Settings                                                                                                        ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Option                                                                                            ; Setting                ;
++---------------------------------------------------------------------------------------------------+------------------------+
+; Tool Name                                                                                         ; ModelSim-Altera (VHDL) ;
+; Generate netlist for functional simulation only                                                   ; Off                    ;
+; Time scale                                                                                        ; 1 ps                   ;
+; Truncate long hierarchy paths                                                                     ; Off                    ;
+; Map illegal HDL characters                                                                        ; Off                    ;
+; Flatten buses into individual nodes                                                               ; Off                    ;
+; Maintain hierarchy                                                                                ; Off                    ;
+; Bring out device-wide set/reset signals as ports                                                  ; Off                    ;
+; Enable glitch filtering                                                                           ; Off                    ;
+; Do not write top level VHDL entity                                                                ; Off                    ;
+; Disable detection of setup and hold time violations in the input registers of bi-directional pins ; Off                    ;
+; Architecture name in VHDL output netlist                                                          ; structure              ;
+; Generate third-party EDA tool command script for RTL functional simulation                        ; Off                    ;
+; Generate third-party EDA tool command script for gate-level simulation                            ; Off                    ;
++---------------------------------------------------------------------------------------------------+------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Simulation Generated Files                                                                                                                                 ;
++------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Generated Files                                                                                                                                            ;
++------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_6_1200mv_85c_slow.vho      ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_6_1200mv_0c_slow.vho       ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_min_1200mv_0c_fast.vho     ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject.vho                        ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_6_1200mv_85c_vhd_slow.sdo  ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_6_1200mv_0c_vhd_slow.sdo   ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_min_1200mv_0c_vhd_fast.sdo ;
+; C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/Miniproject_vhd.sdo                    ;
++------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +-----------------------------+
 ; EDA Netlist Writer Messages ;
 +-----------------------------+
 Info: *******************************************************************
-Info: Running Quartus II 64-Bit EDA Netlist Writer
+Info: Running Quartus II 32-bit EDA Netlist Writer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Tue May 25 17:31:31 2021
-Info: Command: quartus_eda --read_settings_files=on --write_settings_files=off Miniproject -c Miniproject
-Warning (199027): Can't generate output files. Specify command-line options to generate output files, or update EDA tool settings using GUI or Tcl script.
-Info: Quartus II 64-Bit EDA Netlist Writer was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4514 megabytes
-    Info: Processing ended: Tue May 25 17:31:32 2021
-    Info: Elapsed time: 00:00:01
-    Info: Total CPU time (on all processors): 00:00:01
+    Info: Processing started: Mon May 30 08:04:04 2022
+Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off mainDiagram -c Miniproject
+Info (204019): Generated file Miniproject_6_1200mv_85c_slow.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_6_1200mv_0c_slow.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_min_1200mv_0c_fast.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_6_1200mv_85c_vhd_slow.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_6_1200mv_0c_vhd_slow.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_min_1200mv_0c_vhd_fast.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info (204019): Generated file Miniproject_vhd.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
+Info: Quartus II 32-bit EDA Netlist Writer was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 353 megabytes
+    Info: Processing ended: Mon May 30 08:04:08 2022
+    Info: Elapsed time: 00:00:04
+    Info: Total CPU time (on all processors): 00:00:04
 
 

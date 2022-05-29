@@ -1,10 +1,10 @@
-/* Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition */
+/* Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition */
 JedecChain;
 	FileRevision(JESD32A);
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP3C16F484) Path("C:/Users/shrey/Documents/GitHub/COMPSYS305-Mini-Project/Project Files/output_files/") File("Miniproject.sof") MfrSpec(OpMask(1));
+		Device PartName(EP3C16F484) Path("C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/output_files/") File("Miniproject.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

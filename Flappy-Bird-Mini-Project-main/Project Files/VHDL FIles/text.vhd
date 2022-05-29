@@ -39,29 +39,15 @@ ARCHITECTURE BEHAVIOUR of text_display is
 	
 
 BEGIN							
---
---		over_text_on <= '1' when (output_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(335,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(320,10) 
---		and pixel_row <= CONV_STD_LOGIC_VECTOR(45,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(30,10)) and gameState = "00" else'0';
 
 		over_text_on <= '1' when (output_score = '1' and pixel_column <= CONV_STD_LOGIC_VECTOR(336,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(304,10) 
 		and pixel_row <= CONV_STD_LOGIC_VECTOR(30,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(15,10)) and (gameState = "01" or gameState = "10") else'0';
 		
 		
 	score_display <= 
---					CONV_STD_LOGIC_VECTOR(19,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(302,10) else --"S"
-				--	CONV_STD_LOGIC_VECTOR(19,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(19,6) else --"S"
-				--CONV_STD_LOGIC_VECTOR(19,6) when ((pixel_column >= CONV_STD_LOGIC_VECTOR(302,10) and pixel_column <= CONV_STD_LOGIC_VECTOR(334,10) and pixel_row >= CONV_STD_LOGIC_VECTOR(46,10) and pixel_row <= CONV_STD_LOGIC_VECTOR(62,10))) else -- S
-					
-				
---					CONV_STD_LOGIC_VECTOR(3,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(318,10) else --"C"
---					CONV_STD_LOGIC_VECTOR(15,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(334,10) else --"O"
---					CONV_STD_LOGIC_VECTOR(18,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(350,10) else --"R"
---					CONV_STD_LOGIC_VECTOR(5,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(366,10) else --"E"
-					--CONV_STD_LOGIC_VECTOR(58,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(382,10) else --":"
+
 					ones_score when pixel_column <= CONV_STD_LOGIC_VECTOR(336,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(320,10)else 							--"ones_score"
 					tens_score when pixel_column <= CONV_STD_LOGIC_VECTOR(320,10) and pixel_column >= CONV_STD_LOGIC_VECTOR(304,10) else 							--"tens_score"
-					--"100000" when pixel_column <= CONV_STD_LOGIC_VECTOR(414,10) else									--" space 
-					
 			
 					-- for tens
 					CONV_STD_LOGIC_VECTOR(48,6) when pixel_column <= CONV_STD_LOGIC_VECTOR(320,10) AND tens_score = "110000" else --"0"

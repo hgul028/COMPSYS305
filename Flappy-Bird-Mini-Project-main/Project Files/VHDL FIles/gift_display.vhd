@@ -38,13 +38,5 @@ display_gift : process(vert_sync)
 	 end if; 
 end process display_gift;	 
 
-
--- gift collison 
---collide_gift: process
---	begin 
---			if(gift_display ='1' and collision='1') then 
---			   ones_score = ones_score + "110001"; 
-					
-
 END behavior;
 

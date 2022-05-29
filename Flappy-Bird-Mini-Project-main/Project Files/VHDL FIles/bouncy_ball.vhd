@@ -39,11 +39,6 @@ signal giftXPos : std_logic_vector(10 downto 0)  := CONV_STD_LOGIC_VECTOR(700,11
 signal giftSize : std_logic_vector(9 downto 0);
 SIGNAL giftXMotion	: std_logic_vector(10 DOWNTO 0);
 
-
-
-
-
-
 SIGNAL ball_on					: std_logic;
 SIGNAL eye1 : std_logic;
 SIGNAL eye2 : std_logic;
@@ -94,8 +89,8 @@ signal resetScore : std_logic_vector(5 downto 0) := "110000";
 
 signal gameState : std_logic_vector(1 downto 0) := "00";
 
-SIGNAL rand_num1: STD_LOGIC_VECTOR (7 DOWNTO 0):= "10000000";
-SIGNAL rand_num_variable1: STD_LOGIC_VECTOR (6 DOWNTO 0):= "1010101";
+SIGNAL rand_num1: STD_LOGIC_VECTOR (7 DOWNTO 0):= "01111111";
+SIGNAL rand_num_variable1: STD_LOGIC_VECTOR (6 DOWNTO 0):= "1111111";
 signal temp1 : std_logic := '0';
 
 SIGNAL rand_num2: STD_LOGIC_VECTOR (7 DOWNTO 0):= "01111111";
@@ -117,16 +112,12 @@ eye2XPos <= CONV_STD_LOGIC_VECTOR(246,11);
 mouthXPos <= CONV_STD_LOGIC_VECTOR(250,11);
 mouthSize <= CONV_STD_LOGIC_VECTOR(2,10);
 
-pipeSpacing <= CONV_STD_LOGIC_VECTOR(320,10);
+pipeSpacing <= CONV_STD_LOGIC_VECTOR(400,10);
 pipeWidth <= CONV_STD_LOGIC_VECTOR(20,10);
 pipeTopGap <= CONV_STD_LOGIC_VECTOR(170,10);
 pipeBotGap <= CONV_STD_LOGIC_VECTOR(250,10);
 
 ballPadding <= CONV_STD_LOGIC_VECTOR(3,10);
-
-
-
-
 
 ball_on <= '1' when ( ('0' & pixel_column + size >= '0' & ball_x_pos) 
 					and ('0' & pixel_column <= '0' & ball_x_pos + size) 	-- x_pos - size <= pixel_column <= x_pos + size
@@ -198,23 +189,23 @@ variable currentLevel : std_logic_vector(1 downto 0) := "00";
 variable giftCollision : std_logic := '0';
 
 begin
-		Red <= not mainMenuBackground or not mainMenuText;
-		Green <= not mainMenuBackground;
+		Red <= not mainMenuBackground;
+		Green <= not mainMenuBackground or not mainMenuText;
 		Blue <= not mainMenuBackground;
 		
 	
 		-- Main menu selection of training mode
 		if (gameState = "00" and sw0 = '1') then
-			Red <= not mainMenuBackground or not mainMenuText;
+			Red <= not mainMenuBackground or not gameModeText;
 			Green <= not mainMenuBackground;
-			Blue <= not mainMenuBackground;
+			Blue <= not mainMenuBackground or not mainMenuText;
 		end if;
 		
 		-- Main Menu selection of normal mode
 		if (gameState = "00" and sw0 = '0') then
-			Red <= not mainMenuBackground or not gameModeText;
-			Green <= not mainMenuBackground;
-			Blue <= not mainMenuBackground;
+			Red <= not mainMenuBackground;
+			Green <= not mainMenuBackground or not gameModeText;
+			Blue <= not mainMenuBackground or not gameModeText;
 		end if;
 		
 		-- Normal mode
@@ -245,7 +236,7 @@ begin
 		end if;
 
 
-		-- Move once every vertical sync
+		-- Move ball once every vertical sync
 		if (rising_edge(vert_sync)) then
 
 		
@@ -270,8 +261,6 @@ begin
 			end if;
 			
 			if (pb2 = '0' and gameState = "11") then
-				incrementScore := '0';
-				incrementScore2 := '0';
 				gameState <= "00";
 			end if;
 			
@@ -284,8 +273,7 @@ begin
 				gameStart <= gameState;
 				pipe_x_motion <= CONV_STD_LOGIC_VECTOR(2,11);
 				giftXMotion <= CONV_STD_LOGIC_VECTOR(1,11);
-				
-				--set game levels--
+
 				if (gameState = "01") then
 					pipe_x_motion <= CONV_STD_LOGIC_VECTOR(3,11);
 					currentLevel := "00";
@@ -307,37 +295,20 @@ begin
 				pipe1_x_pos <= pipe1_x_pos - pipe_x_motion;
 				pipe2_x_pos <= pipe2_x_pos - pipe_x_motion;
 				
-				giftXPos <= giftXPos - giftXMotion;
 
-				--gift collision--
-				if ((ball_x_pos + size >= giftXPos - giftSize) and (ball_x_pos + size <= giftXPos + giftSize)) then
-					--no gift collision in training mode--
-					if (gameState = "10" and ((ball_y_pos - size <= giftYPos + giftSize ) or (ball_y_pos + size >= giftYPos - giftSize))) then
-						ones_score <= ones_score;
-					--gift collision adds score points in game mode--
-					elsif ( gameState = "01" and ((ball_y_pos - size <= giftYPos + giftSize ) or (ball_y_pos + size >= giftYPos - giftSize))) then
-						giftCollision := '1';
-						ones_score <= ones_score + "000001";
-						giftXPos <= CONV_STD_LOGIC_VECTOR(700,11);
-					end if;
-				end if;
-				
-				--pipe 1 reset--
 				if((pipe1_x_pos + pipeWidth) <=  '1' & CONV_STD_LOGIC_VECTOR(0,10)) then  
-					pipe1_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) + pipeWidth;
+					pipe1_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) + pipeWidth + pipeSpacing;
 					temp1 <= rand_num1(6) XOR rand_num1(4) XOR rand_num1(3) XOR rand_num1(2) XOR rand_num1(0);
 					rand_num1 <= temp1 & rand_num_variable1;
 					incrementScore := '0';	
 				end if;
-				--pipe 2 reset--
 				if((pipe2_x_pos + pipeWidth + pipeSpacing) <=  '1' & CONV_STD_LOGIC_VECTOR(0,10)) then  
-					pipe2_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) - pipeSpacing + pipeWidth;
+					pipe2_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) + pipeWidth;
 					temp2 <= rand_num2(6) XOR rand_num2(4) XOR rand_num2(3) XOR rand_num2(2) XOR rand_num2(0);
 					rand_num2 <= temp2 & rand_num_variable2;
 					incrementScore2 := '0';	
 				end if;
 				
-				--gift reset--
 				if ((giftXPos + giftSize <= '1' & CONV_STD_LOGIC_VECTOR(0,10))) then
 					giftXPos <= '1' & CONV_STD_LOGIC_VECTOR(700,10) + giftSize;
 				end if;
@@ -382,87 +353,18 @@ begin
 				incrementScore2 := '0';
 
 			end if;
-
-			-- Pipe 1 collision
-			if ((ball_y_pos + size + ballPadding >= pipeBotGap + rand_num1) OR ((ball_y_pos <= pipeTopGap + size + rand_num1))) then
-				if ((ball_x_pos + size  <= pipe1XLeft) and (ball_x_pos + size >= pipe1XRight)) then
-					if (gameState = "10" and collision = '0') then
-
-						--decreases lives if collision occurs  
-						lives <= lives - "0001"; 
-						collision := '1';
-					
-					
-					elsif (gameState = "01") then
-							gameState <= "11";
-							ball_y_pos <= CONV_STD_LOGIC_VECTOR(50,10);
-							pipe1_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
-							pipe2_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
-							pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
-							ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
-							ones_score <= "110000";
-							tens_score <= "110000";
-							totalScore <= 0;
-					end if;
-	
-				end if;
-				
-			elsif ((ball_y_pos + size + ballPadding <= pipeBotGap + rand_num1) OR ((ball_y_pos >= pipeTopGap + size + rand_num1))) then
-				collision := '0';
-				if ((gamestate = "01" or gameState = "10") and ((ball_x_pos + size <= pipe1XLeft) and (ball_x_pos + size >= pipe1XRight))) then
-
-					if (incrementScore = '0') then
-						totalScore <= totalScore + 1;
-						ones_score <= ones_score + "000001";
-						
-						incrementScore := '1';
-						giftCollision := '0';
-					end if;
-
-				end if;
-			end if;
-						
-
---			--Pipe 2 collision
-			if ((ball_y_pos + size + ballPadding >= pipeBotGap + rand_num2) OR (ball_y_pos - size + ballPadding <= pipeTopGap + rand_num2)) then
-				if ((ball_x_pos + size <= pipe2XLeft + pipeSpacing) 
-				and (ball_x_pos + size >= pipe2XRight + pipeSpacing)) then
-					 if (gameState = "10" and collision = '0') then
-
-							--decreases lives if collision occurs  
-						 	lives <= lives - "0001"; 
-							collision := '1';
-							 
-						
-						
-						elsif (gameState = "01") then
-							 gameState <= "11";
-							 ball_y_pos <= CONV_STD_LOGIC_VECTOR(50,10);
-							 pipe1_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
-							 pipe2_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
-							 pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
-							 ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
-							 ones_score <= "110000";
-							 tens_score <= "110000";
-							 totalScore <= 0;
-
-						end if;
-				end if;
-				
-			elsif ((ball_y_pos + size + ballPadding <= pipeBotGap + rand_num2) OR (ball_y_pos - size + ballPadding >= pipeTopGap + rand_num2)) then
-				collision := '0';
-				if ((gamestate = "01" or gameState = "10") and ((ball_x_pos + size <= pipe2XLeft + pipeSpacing) and (ball_x_pos + size >= pipe2XRight + pipeSpacing))) then
-
-					if (incrementScore2 = '0') then
-						totalScore <= totalScore + 1;
-						ones_score <= ones_score + "000001";
-						incrementScore2 := '1';
-						giftCollision := '0';
-					end if;
 		
+							giftXPos <= giftXPos - giftXMotion;
+
+				-- Gift collision
+				if ((ball_x_pos + size >= giftXPos - giftSize) and (ball_x_pos + size <= giftXPos + giftSize)) then
+					if ((ball_y_pos - size <= giftYPos + giftSize ) or (ball_y_pos + size >= giftYPos - giftSize)) then
+						giftCollision := '1';
+						ones_score <= ones_score + "000001";
+						giftXPos <= CONV_STD_LOGIC_VECTOR(700,11);
+					end if;
 				end if;
-			end if;
-			
+				
 				
 			if (leftButton = '1' and (gameState = "01" or gameState = "10") and sw1 = '0') then
 				-- Bounce off top or bottom of the screen
