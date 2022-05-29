@@ -1,5 +1,5 @@
 EDA Netlist Writer report for Miniproject
-Mon May 30 08:04:08 2022
+Mon May 30 08:41:14 2022
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -36,7 +36,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Mon May 30 08:04:08 2022 ;
+; EDA Netlist Writer Status ; Successful - Mon May 30 08:41:14 2022 ;
 ; Revision Name             ; Miniproject                           ;
 ; Top-level Entity Name     ; mainDiagram                           ;
 ; Family                    ; Cyclone III                           ;
@@ -88,7 +88,7 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 32-bit EDA Netlist Writer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon May 30 08:04:04 2022
+    Info: Processing started: Mon May 30 08:41:09 2022
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off mainDiagram -c Miniproject
 Info (204019): Generated file Miniproject_6_1200mv_85c_slow.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file Miniproject_6_1200mv_0c_slow.vho in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
@@ -99,9 +99,9 @@ Info (204019): Generated file Miniproject_6_1200mv_0c_vhd_slow.sdo in folder "C:
 Info (204019): Generated file Miniproject_min_1200mv_0c_vhd_fast.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file Miniproject_vhd.sdo in folder "C:/Users/penel/OneDrive/Documents/GitHub/COMPSYS305/Flappy-Bird-Mini-Project-main/Project Files/simulation/modelsim/" for EDA simulation tool
 Info: Quartus II 32-bit EDA Netlist Writer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 353 megabytes
-    Info: Processing ended: Mon May 30 08:04:08 2022
-    Info: Elapsed time: 00:00:04
-    Info: Total CPU time (on all processors): 00:00:04
+    Info: Peak virtual memory: 352 megabytes
+    Info: Processing ended: Mon May 30 08:41:14 2022
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:05
 
 
