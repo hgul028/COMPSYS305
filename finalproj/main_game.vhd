@@ -14,9 +14,9 @@ ENTITY main_game IS
 		
 		SIGNAL textOutput 			: IN std_logic; 
 		SIGNAL gameOverText		: IN std_logic; 
-		SIGNAL mainmenuText		: IN std_logic;  
+		SIGNAL select_game_mode : IN std_logic;  
 		signal randNum				: IN std_logic_vector(7 downto 0);
-		signal gameModeText		: IN std_logic;
+		signal select_train_mode: IN std_logic;
 		signal giftDisplay		: IN std_logic;
 		signal levelsText			: IN std_logic;
 		SIGNAL red, green, blue	: OUT std_logic; 
@@ -190,22 +190,22 @@ variable giftCollision : std_logic := '0';
 
 begin
 		Red <= not mainMenuBackground;
-		Green <= not mainMenuBackground or not mainMenuText;
+		Green <= not mainMenuBackground or not select_train_mode;
 		Blue <= not mainMenuBackground;
 		
 	
 		-- Main menu selection of training mode
 		if (gameState = "00" and sw0 = '1') then
-			Red <= not mainMenuBackground or not gameModeText;
+			Red <= not mainMenuBackground or not select_game_mode;
 			Green <= not mainMenuBackground;
-			Blue <= not mainMenuBackground or not mainMenuText;
+			Blue <= not mainMenuBackground or not select_train_mode;
 		end if;
 		
 		-- Main Menu selection of normal mode
 		if (gameState = "00" and sw0 = '0') then
 			Red <= not mainMenuBackground;
-			Green <= not mainMenuBackground or not gameModeText;
-			Blue <= not mainMenuBackground or not gameModeText;
+			Green <= not mainMenuBackground or not select_game_mode;
+			Blue <= not mainMenuBackground or not select_game_mode;
 		end if;
 		
 		-- Normal mode
