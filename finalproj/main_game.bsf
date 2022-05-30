@@ -1,0 +1,211 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 16 16 272 320)
+	(text "main_game" (rect 5 0 52 12)(font "Arial" ))
+	(text "inst" (rect 8 288 20 300)(font "Arial" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "sw1" (rect 0 0 14 12)(font "Arial" ))
+		(text "sw1" (rect 21 27 35 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 1))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "sw0" (rect 0 0 15 12)(font "Arial" ))
+		(text "sw0" (rect 21 43 36 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 1))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "pb2" (rect 0 0 14 12)(font "Arial" ))
+		(text "pb2" (rect 21 59 35 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "leftButton" (rect 0 0 36 12)(font "Arial" ))
+		(text "leftButton" (rect 21 75 57 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 1))
+	)
+	(port
+		(pt 0 96)
+		(input)
+		(text "rightButton" (rect 0 0 41 12)(font "Arial" ))
+		(text "rightButton" (rect 21 91 62 103)(font "Arial" ))
+		(line (pt 0 96)(pt 16 96)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "clk" (rect 0 0 10 12)(font "Arial" ))
+		(text "clk" (rect 21 107 31 119)(font "Arial" ))
+		(line (pt 0 112)(pt 16 112)(line_width 1))
+	)
+	(port
+		(pt 0 128)
+		(input)
+		(text "vert_sync" (rect 0 0 42 12)(font "Arial" ))
+		(text "vert_sync" (rect 21 123 63 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "pixel_row[9..0]" (rect 0 0 56 12)(font "Arial" ))
+		(text "pixel_row[9..0]" (rect 21 139 77 151)(font "Arial" ))
+		(line (pt 0 144)(pt 16 144)(line_width 3))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "pixel_column[9..0]" (rect 0 0 70 12)(font "Arial" ))
+		(text "pixel_column[9..0]" (rect 21 155 91 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "textOutput" (rect 0 0 40 12)(font "Arial" ))
+		(text "textOutput" (rect 21 171 61 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
+	)
+	(port
+		(pt 0 192)
+		(input)
+		(text "gameOverText" (rect 0 0 61 12)(font "Arial" ))
+		(text "gameOverText" (rect 21 187 82 199)(font "Arial" ))
+		(line (pt 0 192)(pt 16 192)(line_width 1))
+	)
+	(port
+		(pt 0 208)
+		(input)
+		(text "mainmenuText" (rect 0 0 59 12)(font "Arial" ))
+		(text "mainmenuText" (rect 21 203 80 215)(font "Arial" ))
+		(line (pt 0 208)(pt 16 208)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "randNum[7..0]" (rect 0 0 57 12)(font "Arial" ))
+		(text "randNum[7..0]" (rect 21 219 78 231)(font "Arial" ))
+		(line (pt 0 224)(pt 16 224)(line_width 3))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "gameModeText" (rect 0 0 62 12)(font "Arial" ))
+		(text "gameModeText" (rect 21 235 83 247)(font "Arial" ))
+		(line (pt 0 240)(pt 16 240)(line_width 1))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "giftDisplay" (rect 0 0 41 12)(font "Arial" ))
+		(text "giftDisplay" (rect 21 251 62 263)(font "Arial" ))
+		(line (pt 0 256)(pt 16 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "levelsText" (rect 0 0 40 12)(font "Arial" ))
+		(text "levelsText" (rect 21 267 61 279)(font "Arial" ))
+		(line (pt 0 272)(pt 16 272)(line_width 1))
+	)
+	(port
+		(pt 256 32)
+		(output)
+		(text "score_ones_out[5..0]" (rect 0 0 84 12)(font "Arial" ))
+		(text "score_ones_out[5..0]" (rect 151 27 235 39)(font "Arial" ))
+		(line (pt 256 32)(pt 240 32)(line_width 3))
+	)
+	(port
+		(pt 256 48)
+		(output)
+		(text "score_tens_out[5..0]" (rect 0 0 82 12)(font "Arial" ))
+		(text "score_tens_out[5..0]" (rect 153 43 235 55)(font "Arial" ))
+		(line (pt 256 48)(pt 240 48)(line_width 3))
+	)
+	(port
+		(pt 256 64)
+		(output)
+		(text "red" (rect 0 0 12 12)(font "Arial" ))
+		(text "red" (rect 223 59 235 71)(font "Arial" ))
+		(line (pt 256 64)(pt 240 64)(line_width 1))
+	)
+	(port
+		(pt 256 80)
+		(output)
+		(text "green" (rect 0 0 22 12)(font "Arial" ))
+		(text "green" (rect 213 75 235 87)(font "Arial" ))
+		(line (pt 256 80)(pt 240 80)(line_width 1))
+	)
+	(port
+		(pt 256 96)
+		(output)
+		(text "blue" (rect 0 0 15 12)(font "Arial" ))
+		(text "blue" (rect 220 91 235 103)(font "Arial" ))
+		(line (pt 256 96)(pt 240 96)(line_width 1))
+	)
+	(port
+		(pt 256 112)
+		(output)
+		(text "mouseReset" (rect 0 0 51 12)(font "Arial" ))
+		(text "mouseReset" (rect 184 107 235 119)(font "Arial" ))
+		(line (pt 256 112)(pt 240 112)(line_width 1))
+	)
+	(port
+		(pt 256 128)
+		(output)
+		(text "gameOver[1..0]" (rect 0 0 62 12)(font "Arial" ))
+		(text "gameOver[1..0]" (rect 173 123 235 135)(font "Arial" ))
+		(line (pt 256 128)(pt 240 128)(line_width 3))
+	)
+	(port
+		(pt 256 144)
+		(output)
+		(text "gameStart[1..0]" (rect 0 0 60 12)(font "Arial" ))
+		(text "gameStart[1..0]" (rect 175 139 235 151)(font "Arial" ))
+		(line (pt 256 144)(pt 240 144)(line_width 3))
+	)
+	(port
+		(pt 256 160)
+		(output)
+		(text "lives_out[3..0]" (rect 0 0 55 12)(font "Arial" ))
+		(text "lives_out[3..0]" (rect 180 155 235 167)(font "Arial" ))
+		(line (pt 256 160)(pt 240 160)(line_width 3))
+	)
+	(port
+		(pt 256 176)
+		(output)
+		(text "levelOut[1..0]" (rect 0 0 50 12)(font "Arial" ))
+		(text "levelOut[1..0]" (rect 185 171 235 183)(font "Arial" ))
+		(line (pt 256 176)(pt 240 176)(line_width 3))
+	)
+	(drawing
+		(rectangle (rect 16 16 240 288)(line_width 1))
+	)
+)

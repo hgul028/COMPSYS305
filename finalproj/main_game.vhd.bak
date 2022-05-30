@@ -1,0 +1,420 @@
+library IEEE;
+USE IEEE.STD_LOGIC_1164.all;
+USE  IEEE.STD_LOGIC_ARITH.all;
+USE  IEEE.STD_LOGIC_SIGNED.all;
+
+
+entity main_game is
+	port
+		(	signal sw1, sw0, pb2, leftButton, rightButton, clk, vert_sync														: in std_logic;
+			signal pixel_row, pixel_column																								: in std_logic_vector(9 downto 0);
+			signal textOutput, gameOverText, mainmenuText,  gameModeText, giftDisplay, levelsText						: in std_logic; 
+			signal randNum																														: in std_logic_vector(7 downto 0);
+			
+			signal red, green, blue																											: out std_logic; 
+			signal mouseReset 																												: out std_logic := '0'; 
+			signal score_ones_out, score_tens_out 																						: OUT std_logic_vector(5 downto 0) := "110000";
+			signal gameOver      																											: out std_logic_vector(1 downto 0); 
+			signal gameStart																													: out std_logic_vector(1 downto 0); 
+			signal lives_out 																													: out std_logic_vector(3 downto 0);
+			signal levelOut																													: out std_logic_vector(1 downto 0)	); 
+		  
+end main_game;
+
+architecture behavior of main_game is
+
+-- customize & declare bird
+signal ball_on					: std_logic;
+signal left_eye 				: std_logic;
+signal right_eye 				: std_logic;
+signal eye1_x_pos				: std_logic_vector(10 downto 0);
+signal eye2_x_pos				: std_logic_vector(10 downto 0);
+signal beak_x_pos				: std_logic_vector(10 downto 0);
+signal left_eye_size 		: std_logic_vector(9 downto 0);
+signal beak_size				: std_logic_vector(9 downto 0);
+signal beak						: std_logic;
+signal bird_size 				: std_logic_vector(9 downto 0);  
+signal ball_y_pos				: std_logic_vector(9 downto 0);
+signal ball_x_pos				: std_logic_vector(10 downto 0);
+signal ball_y_motion			: std_logic_vector(9 downto 0);
+
+-- declare backgrounds
+signal mainMenuBackground  : std_logic;
+signal background          : std_logic;
+signal gameOverBackground  : std_logic;
+
+-- pipe declaration
+signal pipe_top_1				: std_logic;
+signal pipe_top_2				: std_logic;
+signal pipe_bottom_1			: std_logic;
+signal pipe_bottom_2			: std_logic;
+signal pipe_gap 				: std_logic_vector(9 downto 0);
+signal pipe_width 			: std_logic_vector(9 downto 0);
+signal pipe_top_gap 			: std_logic_vector(9 downto 0);--??? 
+signal pipe_bottom_gap 		: std_logic_vector(9 downto 0); 
+signal pipe1_x_pos			: std_logic_vector(10 downto 0) := CONV_STD_LOGIC_VECTOR(0,11);
+signal pipe2_x_pos			: std_logic_vector(10 downto 0) := CONV_STD_LOGIC_VECTOR(0,11);
+signal pipe_x_motion			: std_logic_vector(10 downto 0);
+signal pipe1_left 			: std_logic_vector(10 downto 0) := pipe1_x_pos - pipe_width - ball_x_pos - bird_size - bird_size;
+signal pipe1_right 			: std_logic_vector(10 downto 0) := pipe1_x_pos + pipe_width - ball_x_pos;
+signal pipe2_left 			: std_logic_vector(10 downto 0) := pipe2_x_pos - pipe_width - ball_x_pos - bird_size - bird_size;
+signal pipe2_right 			: std_logic_vector(10 downto 0) := pipe2_x_pos + pipe_width - ball_x_pos;
+
+-- declare gift
+signal gift 					: std_logic;
+signal gift_y_pos 			: std_logic_vector(9 downto 0);
+signal gift_x_pos 			: std_logic_vector(10 downto 0)  := CONV_STD_LOGIC_VECTOR(700,11);
+signal gift_size 				: std_logic_vector(9 downto 0);
+signal gift_x_motion			: std_logic_vector(10 downto 0);
+
+-- declare score
+signal ones_score,tens_score 	: std_logic_vector(5 downto 0) := "110000";
+signal score 						: integer := 0;
+
+-- declare game parameters
+signal lives 					: std_logic_vector(3 downto 0) := "0011"; --NOT WORKING 
+signal damage 					: std_logic := '0';	--NOT WORKING
+signal pipes 					: std_logic;
+signal reset_score 			: std_logic_vector(5 downto 0) := "110000";
+signal state 					: std_logic_vector(1 downto 0) := "00";
+
+--declare random generation signals
+signal rand_1a					: std_logic_vector (7 downto 0):= "01111111";
+signal rand_1b					: std_logic_vector (6 downto 0):= "1111111";
+signal temp1 					: std_logic := '0';
+signal rand_2a					: std_logic_vector (7 downto 0):= "01111111";
+signal rand_2b					: std_logic_vector (6 downto 0):= "0101010";
+signal temp2 					: std_logic := '0';
+
+
+begin
+
+-- initialize gift
+gift_y_pos <= CONV_STD_LOGIC_VECTOR(200,10);
+gift_size <= CONV_STD_LOGIC_VECTOR(8,10);   
+
+-- initialize bird
+bird_size <= CONV_STD_LOGIC_VECTOR(10,10);
+left_eye_size <= CONV_STD_LOGIC_VECTOR(1,10);
+ball_x_pos <= CONV_STD_LOGIC_VECTOR(250,11);
+eye1_x_Pos <= CONV_STD_LOGIC_VECTOR(254,11);
+eye2_x_pos <= CONV_STD_LOGIC_VECTOR(246,11);
+beak_x_pos <= CONV_STD_LOGIC_VECTOR(250,11);
+beak_size <= CONV_STD_LOGIC_VECTOR(2,10);
+
+-- initialize pipes
+pipe_gap <= CONV_STD_LOGIC_VECTOR(400,10);
+pipe_width <= CONV_STD_LOGIC_VECTOR(20,10);
+pipe_top_gap <= CONV_STD_LOGIC_VECTOR(170,10);
+pipe_bottom_gap <= CONV_STD_LOGIC_VECTOR(250,10);
+
+
+ball_on <= '1' when ( ('0' & pixel_column + bird_size >= '0' & ball_x_pos) 
+					and ('0' & pixel_column <= '0' & ball_x_pos + bird_size) 	-- x_pos - bird_size <= pixel_column <= x_pos + bird_size
+					and (pixel_row + bird_size >= '0' & ball_y_pos) 
+					and ('0' & pixel_row <= ball_y_pos + bird_size) )  else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+			  '0';
+
+left_eye <= '1' when ( ('0' & pixel_column + left_eye_size >= '0' & eye1_x_Pos) 
+					and ('0' & pixel_column <= '0' & eye1_x_Pos + left_eye_size) 	-- x_pos - bird_size <= pixel_column <= x_pos + bird_size
+					and (pixel_row + left_eye_size >= '0' & ball_y_pos - CONV_STD_LOGIC_VECTOR(2,10)) 
+					and ('0' & pixel_row <= ball_y_pos + left_eye_size - CONV_STD_LOGIC_VECTOR(2,10)) )  else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+'0';
+
+right_eye <= '1' when ( ('0' & pixel_column + left_eye_size >= '0' & eye2_x_pos) 
+					and ('0' & pixel_column <= '0' & eye2_x_pos + left_eye_size) 	-- x_pos - bird_size <= pixel_column <= x_pos + bird_size
+					and (pixel_row + left_eye_size >= '0' & ball_y_pos - CONV_STD_LOGIC_VECTOR(2,10)) 
+					and ('0' & pixel_row <= ball_y_pos + left_eye_size - CONV_STD_LOGIC_VECTOR(2,10)) )  else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+'0';
+
+beak <= '1' when ( ('0' & pixel_column + beak_size >= '0' & beak_x_pos) 
+					and ('0' & pixel_column <= '0' & beak_x_pos + beak_size) 	-- x_pos - bird_size <= pixel_column <= x_pos + bird_size
+					and (pixel_row + beak_size >= '0' & ball_y_pos + CONV_STD_LOGIC_VECTOR(3,10)) 
+					and ('0' & pixel_row <= ball_y_pos + beak_size + CONV_STD_LOGIC_VECTOR(3,10)) )  else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+'0';
+
+gift <= '1' when ( ('0' & pixel_column + gift_size >= '0' & gift_x_pos) 
+					and ('0' & pixel_column <= '0' & gift_x_pos + gift_size) 	-- x_pos - bird_size <= pixel_column <= x_pos + bird_size
+					and (pixel_row + gift_size >= '0' & gift_y_pos) 
+					and ('0' & pixel_row <= gift_y_pos + gift_size))  else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+'0';
+			  
+background <= '1' when (pixel_row >= 0 and pixel_row <= 479) or (pixel_column >= 0 and pixel_column <= 639) else
+				  '0';
+
+gameOverBackground <= '1' when (pixel_row >= 0 and pixel_row <= 479) or (pixel_column >= 0 and pixel_column <= 639) else
+				  '0';
+			
+mainMenuBackground <= '1' when (pixel_row >= 0 and pixel_row <= 479) or (pixel_column >= 0 and pixel_column <= 639) else
+				  '0';
+			  
+pipe_bottom_1 <= '1' when (pixel_row >= pipe_top_gap + rand_1a and pixel_row <= pipe_bottom_gap + rand_1a) 
+				else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+			  '0';
+			  
+			  
+pipe_top_1 <= '0' when (('1' & pixel_column + pipe_width >= '1' & pipe1_x_pos) and 
+							('1' & pixel_column <= '1' & pipe1_x_pos + pipe_width))
+							else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+							'1';	
+							
+pipe_bottom_2 <= '1' when (pixel_row >= pipe_top_gap + rand_2a and pixel_row <= pipe_bottom_gap + rand_2a) else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+			  '0';	
+			  
+pipe_top_2 <= '0' when (('1' & pixel_column + pipe_width >= '1' & pipe2_x_pos + pipe_gap) and 
+							('1' & pixel_column <= '1' & pipe2_x_pos + pipe_gap + pipe_width)) else	-- y_pos - bird_size <= pixel_row <= y_pos + bird_size
+							'1';
+
+pipes <= ((not pipe_bottom_1 and not pipe_top_1) or (not pipe_bottom_2 and not pipe_top_2));
+
+
+Move_Ball: process (vert_sync)
+variable tick : std_logic := '0';
+variable incrementScore : std_logic := '0';
+variable incrementScore2 : std_logic := '0';
+variable damage : std_logic := '0';
+variable currentLevel : std_logic_vector(1 downto 0) := "00";
+variable gift_collect : std_logic := '0';
+
+begin
+		Red <= not mainMenuBackground or not mainMenuText;
+		Green <= not mainMenuBackground;
+		Blue <= not mainMenuBackground;
+		
+	
+		-- Main menu selection of training mode
+		if (state = "00" and sw0 = '1') then
+			Red <= not mainMenuBackground or not mainMenuText;
+			Green <= not mainMenuBackground;
+			Blue <= not mainMenuBackground;
+		end if;
+		
+		-- Main Menu selection of normal mode
+		if (state = "00" and sw0 = '0') then
+			Red <= not mainMenuBackground or not gameModeText;
+			Green <= not mainMenuBackground;
+			Blue <= not mainMenuBackground;
+		end if;
+		
+		-- Normal mode
+		if (state = "01") then 
+				Red <= (background or ball_on) and ((not pipes) or (gift) or (levelsText) or (textOutput));
+				Green <= (background or ball_on or pipes) and (not gift) and (not levelsText) and (not textOutput);
+				Blue <=(background and (not ball_on) and ((not pipes)  or (gift) or (levelsText) or (textOutput)));	
+			if (gift_collect = '1') then
+				Red <= (background or ball_on) and ((not pipes) or (levelsText) or (textOutput));
+				Green <= (background or ball_on or pipes) and (not levelsText) and (not textOutput);
+				Blue <= (background and (not ball_on) and ((not pipes)  or (levelsText) or (textOutput)));
+			end if;
+		end if;
+		
+		-- Training mode
+		if (state = "10") then
+			Red <= ((background) and ((not pipes or ball_on) or ( textOutput)));
+			Green <=  ((background or ball_on or pipes) and (not textOutput));
+			Blue <= (background and (not ball_on) and ((not pipes) or (textOutput)));
+		end if;	
+		
+		-- Game over
+		if (state = "11") then 
+			gameOver <= state;
+			Red <= not gameOverBackground or not gameOverText;
+			Green <= not gameOverBackground;
+			Blue <= not gameOverBackground;
+		end if;
+
+		if (rising_edge(vert_sync)) then
+
+			-- Initialise to training mode
+			if (sw0 = '1' and rightButton = '1') then
+				state <= "10";
+				incrementScore := '0';
+				incrementScore2 := '0';
+				lives <= "0011";
+				ball_y_pos <= CONV_STD_LOGIC_VECTOR(50, 10);
+			end if;
+			
+			-- Initialise to single player mode
+			if (sw0 = '0' and rightButton = '1') then
+				state <= "01";
+				incrementScore := '0';
+				incrementScore2 := '0';
+				lives <= "0011";
+				ball_y_pos <= CONV_STD_LOGIC_VECTOR(50,10);
+			end if;
+			
+			--reset to main menu after lose
+			if (pb2 = '0' and state = "11") then
+				state <= "00";
+			end if;
+			
+			--main menu initializer
+			if (state = "00") then
+				lives <= "0011";
+				score <= 0;
+			end if;
+			
+			--plays game by shifting pipes and gifts to the left
+			if (state = "01" or state = "10") then
+				
+				gameStart <= state;
+				pipe_x_motion <= CONV_STD_LOGIC_VECTOR(2,11);
+				gift_x_motion <= CONV_STD_LOGIC_VECTOR(1,11);
+				
+				-- Normal mode functions8
+				pipe_x_motion <= CONV_STD_LOGIC_VECTOR(3,11);
+				currentLevel := "00";
+				if (score >= 5 and score < 10) then
+					pipe_x_motion <= CONV_STD_LOGIC_VECTOR(4,11);
+					currentLevel := "01";
+				elsif (score >= 10 and score < 15) then
+					pipe_x_motion <= CONV_STD_LOGIC_VECTOR(5,11);
+					currentLevel := "10";
+				elsif (score >= 15 and score < 20) then
+					pipe_x_motion <= CONV_STD_LOGIC_VECTOR(7,11);
+					currentLevel := "11";
+				end if;
+					
+				levelOut <= currentLevel;
+			end if;
+
+
+			pipe1_x_pos <= pipe1_x_pos - pipe_x_motion;
+			pipe2_x_pos <= pipe2_x_pos - pipe_x_motion;
+				
+			gift_x_pos <= gift_x_pos - gift_x_motion;
+
+				-- Gift detection
+				if ((ball_x_pos + bird_size >= gift_x_pos - gift_size) and (ball_x_pos + bird_size <= gift_x_pos + gift_size)) then
+					if ((ball_y_pos - bird_size <= gift_y_pos + gift_size ) or (ball_y_pos + bird_size >= gift_y_pos - gift_size)) then
+						gift_collect := '1';
+						ones_score <= ones_score + "000001";
+						gift_x_pos <= CONV_STD_LOGIC_VECTOR(700,11);
+					end if;
+				end if;
+				
+
+				if((pipe1_x_pos + pipe_width) <=  '1' & CONV_STD_LOGIC_VECTOR(0,10)) then  
+					pipe1_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) + pipe_width + pipe_gap;
+					temp1 <= rand_1a(6) XOR rand_1a(4) XOR rand_1a(3) XOR rand_1a(2) XOR rand_1a(0);
+					rand_1a <= temp1 & rand_1b;
+					incrementScore := '0';	
+				end if;
+				if((pipe2_x_pos + pipe_width + pipe_gap) <=  '1' & CONV_STD_LOGIC_VECTOR(0,10)) then  
+					pipe2_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(640,10) + pipe_width;
+					temp2 <= rand_2a(6) XOR rand_2a(4) XOR rand_2a(3) XOR rand_2a(2) XOR rand_2a(0);
+					rand_2a <= temp2 & rand_2b;
+					incrementScore2 := '0';	
+				end if;
+				
+				if ((gift_x_pos + gift_size <= '1' & CONV_STD_LOGIC_VECTOR(0,10))) then
+					gift_x_pos <= '1' & CONV_STD_LOGIC_VECTOR(700,10) + gift_size;
+				end if;
+				
+			end if;
+			
+				
+			if (ones_score > "111001") then
+				ones_score <= "110000";
+				tens_score <= tens_score + "000001";
+			end if;
+
+			-- Score and lives outputs
+			score_ones_out <= ones_score;
+			score_tens_out <= tens_score;
+
+			lives_out <= lives; 
+				
+				
+			-- Game over if lives gone
+			if (state = "10" and lives = "0000") then
+				state <= "11";
+				lives_out <= "0011";
+
+				ball_y_pos <= CONV_STD_LOGIC_VECTOR(50,10);
+				pipe1_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
+				pipe2_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
+				pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
+				ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
+				ones_score <= "110000";
+				score <= 0;
+
+				
+			end if;
+			
+			if ((ball_x_pos + bird_size >= pipe1_left) and (ball_x_pos + bird_size <= pipe1_right)) then
+				incrementScore := '0';
+
+			end if;
+
+			if ((ball_x_pos + bird_size >= pipe2_left + pipe_gap) and (ball_x_pos + bird_size <= pipe2_right + pipe_gap)) then
+				incrementScore2 := '0';
+
+			end if;
+
+			
+			
+				
+			if (leftButton = '1' and (state = "01" or state = "10") and sw1 = '0') then
+				-- Bounce off top or bottom of the screen
+				
+				if (ball_y_pos <= bird_size) then
+					ball_y_motion <= CONV_STD_LOGIC_VECTOR(2,10);
+				end if; 
+				
+				
+				ball_y_pos <= ball_y_pos + ball_y_motion - "000011111";
+				
+				
+				mouseReset <= '1';
+				
+				
+				
+			elsif (leftButton = '0' and (state = "01" or state = "10")) then
+				if (ball_y_pos <= bird_size) then
+					ball_y_motion <= - CONV_STD_LOGIC_VECTOR(2,10);
+				elsif ('0' & ball_y_pos >= CONV_STD_LOGIC_VECTOR(479, 10) - bird_size) then
+					ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
+				elsif (sw1 = '1') then
+						pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
+						ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
+				elsif (sw1 = '0') then
+					ball_y_motion <= - CONV_STD_LOGIC_VECTOR(2,10);
+				end if;
+				-- Compute next ball Y position
+				ball_y_pos <= ball_y_pos - ball_y_motion;
+				
+				mouseReset <= '0';
+
+				 
+					 -- hits the bottom or top of screen: This part works
+				if (ball_y_pos+bird_size >= CONV_STD_LOGIC_VECTOR(480,10) or ball_y_pos+bird_size <= CONV_STD_LOGIC_VECTOR(0,10))then
+					if (state = "10" and damage = '0') then
+
+						--decreases lives if damage occurs  
+						lives <= lives - "0001";
+						damage := '1'; 
+					
+
+					elsif (state = "01") then
+						state <= "11";
+						ball_y_pos <= CONV_STD_LOGIC_VECTOR(50,10);
+						pipe1_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
+						pipe2_x_pos <= CONV_STD_LOGIC_VECTOR(0,11);
+						ball_y_motion <= CONV_STD_LOGIC_VECTOR(0,10);
+						pipe_x_motion <= CONV_STD_LOGIC_VECTOR(0,11);
+						ones_score <= "110000";
+						score <= 0;
+					end if;
+					
+
+				end if ;
+		end if;
+end if;
+end process Move_Ball;
+
+
+		
+
+END behavior;
+
